@@ -163,4 +163,51 @@ public class MemberDAO {
 		}
 		return "modify.jsp";
 	}
+	
+	//회원 정보 업데이트
+	public int update(HttpServletRequest request, HttpServletResponse response) {
+		int custno = Integer.parseInt(request.getParameter("custno"));
+		String custname = request.getParameter("custname");
+		String phone = request.getParameter("phone");
+		String address = request.getParameter("address");
+		String joindate = request.getParameter("joindate");
+		String grate = request.getParameter("grade");
+		String city = request.getParameter("city");
+		int result = 0;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "update member_tbl_02 set ";
+			sql += "custname = ?, ";
+			sql += "phone = ?, ";
+			sql += "address = ?, ";
+			sql += "joindate = to_date(?, 'yyyy-mm-dd'), ";
+			sql += "grade = ?, ";
+			sql += "city = ? ";
+			sql += "where custno = ?";
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, custname);
+			ps.setString(2, phone);
+			ps.setString(3, address);
+			ps.setString(4, joindate);
+			ps.setString(5, grate);
+			ps.setString(6, city);
+			ps.setInt(7, custno);
+			
+			//insert, update, delete 성공한 레코드의 갯수를 반환 
+			result = ps.executeUpdate();
+			
+			conn.close();
+			ps.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

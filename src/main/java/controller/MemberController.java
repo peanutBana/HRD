@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,7 +58,23 @@ public class MemberController extends HttpServlet {
 			site = member.modify(request, response);
 			break;
 		case "/update":
-			site = member.update(request, response);
+			int result1 = member.update(request, response);
+			response.setContentType("text/html; charset=UTF8");
+			PrintWriter out = response.getWriter();
+			
+			if(result1 == 1) {	//업데이트 성공
+				out.print("<script>");
+				out.print("alert('회원수정이 완료되었습니다!'); location.href='" + context + "';");
+				out.print("</script>");
+				out.flush();
+				break;
+			}else {
+				out.print("<script>");
+				out.print("alert('수정실패!'); location.href='" + context + "';");
+				out.print("</script>");
+				out.flush();
+				
+			}
 			break;
 		}
 
