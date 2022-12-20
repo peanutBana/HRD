@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%	
+	request.setCharacterEncoding("UTF-8");
+	int custno = 0;
+	custno = (Integer) request.getAttribute("custno");
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="style.css">
-<script type="text/javascript" src="script.js"></script>
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript" src="script.js"></script>
+	<title>Insert title here</title>
 </head>
 <body>
 <%@ include file="topmenu.jsp" %>
@@ -18,7 +23,7 @@
 			<table>
 				<tr>
 					<th>회원번호(자동발생)</th>
-					<td><input type="text" name="custno"></td>
+					<td><input type="text" name="custno" value="<%=custno%>" readonly></td>
 				</tr>
 				<tr>
 					<th>회원성명</th>
@@ -47,7 +52,7 @@
 				<tr>
 					<td colspan="2">
 						<button class="btn" type="submit" onclick="fn_submit(); return false;">등록</button>
-						<button class="btn" type="button">조회</button>
+						<button class="btn" type="button" onclick="location='list'">조회</button>
 					</td>
 				</tr>
 			</table>

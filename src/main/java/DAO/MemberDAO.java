@@ -20,7 +20,7 @@ public class MemberDAO {
 	//데이터베이스 연결
 	public static Connection getConnection() throws Exception {
 	      Class.forName("oracle.jdbc.OracleDriver");
-	      Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1524:xe", "system", "sys1234");
+	      Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "sys1234");
 	      return con;
 	   }
 	
@@ -62,6 +62,31 @@ public class MemberDAO {
 			return "add";
 	}
 	
+	public String nextCustno(HttpServletRequest request, HttpServletResponse response) {
+	      try {
+	         conn = getConnection();
+	         String sql = "select max(custno)+1 custno from member_tbl_02";
+	         ps = conn.prepareStatement(sql);
+	         rs = ps.executeQuery();
+	         
+	         int custno = 0;
+	         
+	         if(rs.next()) custno = rs.getInt(1);
+	         
+	         
+	         request.setAttribute("custno", custno);
+	         
+	         conn.close();
+	         ps.close();
+	         rs.close();
+	         
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
+	      return "add.jsp";
+	   }
+	
+	
 	//회원목록 수정 조회
 	public String selectAll(HttpServletRequest request, HttpServletResponse response) {
 		ArrayList<Member> list = new ArrayList<Member>();
@@ -99,4 +124,43 @@ public class MemberDAO {
 		
 		return "list.jsp";
  	}
+	/*
+	 1. conn = getConnection(); try/catch 감싸기 
+	 2. int custno = Integer.parseInt(request.getParameter("custno")); 	=> 수정할 회원정보 가져오기
+	 3. String sql 작성
+	 */
+	
+	//회원정보수정 (기존 데이터를 가져옴)
+	public String modify(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			conn = getConnection();
+			int custno = Integer.parseInt(request.getParameter("custno"));
+			
+			String sql = "select custname, phone, address, TO_CHAR(joindate, 'YYYY-MM-DD') joindate, grade, city ";
+			sql += "from member_tbl_02 where custno=" + custno;
+			
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			Member member = new Member();
+			
+			if(rs.next()) {
+				member.setCustno(custno);
+				member.setCustname(rs.getString(1));
+				member.setPhone(rs.getString(2));
+				member.setAddress(rs.getString(3));
+				member.setJoindate(rs.getString(4));
+				member.setGrade(rs.getString(5));
+				member.setCity(rs.getString(6));
+			}
+			
+			request.setAttribute("member", member);
+			request.setAttribute("custno", custno);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "modify.jsp";
+	}
 }

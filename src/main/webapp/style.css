@@ -1,87 +1,88 @@
 @charset "UTF-8";
 *{
-	margin:0;
-	padding:0;
+   margin:0;
+   padding:0;
 }
 
 header{
-	top:0;
-	height: 150px;
-	background: blue;
-	color: #fff;
-	line-height: 150px;
-	width: 100%;
-	text-align: center;
-	font-size: 35px;
-	font-weight: 900;
+   top:0;
+   height: 150px;
+   background: blue;
+   color: #fff;
+   line-height: 150px;
+   width: 100%;
+   text-align: center;
+   font-size: 35px;
+   font-weight: 900;
 }
 
 nav ul{
-	height: 50px;
-	line-height: 50px;
-	width: 100%;
-	background: skyblue;
-	overflow: hidden;
+   height: 50px;
+   line-height: 50px;
+   width: 100%;
+   background: skyblue;
+   list-style: none !important;
+   
 }
 
+
 nav ul li {
-	float: left;
-	/*list-style: none;*/
-	padding: 0 10px;	
+   float: left;
+   padding: 0 10px;   
 }
 
 a{
-	text-decoration: none;
-	color: #fff;
+   text-decoration: none;
+   color: #fff;
 }
 
 /*
 a:hover{
-	cursor: pointer;	
+   cursor: pointer;   
 }
 */
 
 section{
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	background: #E5E5E5;	
-	overflow: auto;
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   background: #E5E5E5;   
+   overflow: auto;
 }
 
 .title{
-	font-size: 30px;
-	font-weight: 900;
-	text-align: center;
-	margin: 3rem;
+   font-size: 30px;
+   font-weight: 900;
+   text-align: center;
+   margin: 3rem;
 }
 
 .wrapper{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
 }
 
 table{
-	width: 600px;
+   width: 600px;
 }
 
 table, tr, th, td{
-	border:1px solid black;
+   border:1px solid black;
 }
 
 td input{
-	float:left;
-	padding: 0.3rem;
+   float:left;
+   padding: 0.3rem;
 }
 
 .btn{
-	padding: 0.2rem 1rem;
+   padding: 0.2rem 1rem;
 }
 
 footer{
-	position: fixed;
+   position: fixed;
     bottom: 0;
     width: 100%;
     height: 50px;
@@ -90,5 +91,4 @@ footer{
     background: blue;
     color: white;
 }
-
 
