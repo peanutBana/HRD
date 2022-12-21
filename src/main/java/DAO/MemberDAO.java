@@ -3,15 +3,15 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import DTO.Member;
-
-import java.sql.DriverManager;
-
+import DTO.Money;
+  
 public class MemberDAO {
 	Connection conn = null;
 	PreparedStatement ps = null;
@@ -36,7 +36,6 @@ public class MemberDAO {
 			int result = 0;
 		
 			try {
-		
 				conn = getConnection();
 				String sql = "insert into member_tbl_02 values(?,?,?,?,to_date(?,'YYYY-MM-DD'),?,?)";
 				ps = conn.prepareStatement(sql);
@@ -55,7 +54,7 @@ public class MemberDAO {
 				conn.close();
 				ps.close();
 	
-			} catch (Exception e) {		//db연결
+			} catch (Exception e) {		
 				e.printStackTrace();
 			}
 			
@@ -118,12 +117,50 @@ public class MemberDAO {
 			rs.close();
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		
 		return "list.jsp";
  	}
+	public String selectResult(HttpServletRequest request, HttpServletResponse response) {
+		ArrayList<Money> list = new ArrayList<Money>();
+		
+		try {
+			conn = getConnection();
+			String sql = "select m1.custno, m1.custname, DECODE(grade, 'A','VIP', 'B','일반', '직원') "
+					+ "grade, sum(m2.price) price";
+			sql += " from member_tbl_02 m1, money_tbl_02 m2";
+			sql += " where m1.custno = m2.custno";
+			sql += " group by(m1.custno, m1.custname, grade)";
+			sql += " order by price desc";
+			
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Money money = new Money();
+				money.setCustno(rs.getInt(1));
+				money.setCustname(rs.getString(2));
+				money.setGrade(rs.getString(3));
+				money.setPrice(rs.getInt(4));
+				
+				list.add(money);
+			}
+			
+			request.setAttribute("list", list);
+			
+			conn.close();
+			ps.close();
+			rs.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "result.jsp";
+		
+	}
+	
 	/*
 	 1. conn = getConnection(); try/catch 감싸기 
 	 2. int custno = Integer.parseInt(request.getParameter("custno")); 	=> 수정할 회원정보 가져오기
@@ -158,7 +195,6 @@ public class MemberDAO {
 			request.setAttribute("custno", custno);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "modify.jsp";
@@ -205,9 +241,28 @@ public class MemberDAO {
 			ps.close();
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
 	}
+	
+	public int delete(HttpServletRequest request, HttpServletResponse response) {
+		int result = 0;
+		try {
+			conn = getConnection();
+			String custno = request.getParameter("custno");
+			String sql = "delete from member_tbl_02 where custno=" + custno;
+			
+			ps = conn.prepareStatement(sql);
+			result = ps.executeUpdate();	
+			
+			conn.close();
+			ps.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;	
+	}
+	
 }

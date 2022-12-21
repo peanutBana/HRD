@@ -81,6 +81,10 @@ td input{
    padding: 0.2rem 1rem;
 }
 
+.main{
+	padding-left:5px;
+}
+
 footer{
    position: fixed;
     bottom: 0;

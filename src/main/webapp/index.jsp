@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>main</title>
-<link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<title>main</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<%@ include file="topmenu.jsp"%>

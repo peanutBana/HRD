@@ -6,7 +6,6 @@
 	request.setCharacterEncoding("UTF-8");
 	ArrayList<Member> list = new ArrayList<Member>();
 	list = (ArrayList<Member>) request.getAttribute("list");	
-
 %>
 <!DOCTYPE html>
 <html>
@@ -16,7 +15,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<%@ include file="topmenu.jsp" %>
+<%@ include file="topmenu.jsp" %>
 <section>
 	<div class="title">쇼핑몰 회원관리 프로그램</div>
 	<div class="wrapper">
@@ -30,8 +29,7 @@
 				<th>고객등급</th>
 				<th>거주지역</th>
 				<th>삭제</th>
-			</tr>
-				
+			</tr>	
 			<% for (Member m : list) {%>
 				<tr>  
 					<td><a href="modify?custno=<%=m.getCustno()%>"><%=m.getCustno() %></a></td>
